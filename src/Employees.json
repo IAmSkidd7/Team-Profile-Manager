@@ -1,0 +1,18 @@
+{
+    "employees": [
+        {
+            "name": "Baron",
+            "id": "1",
+            "email": "Manager",
+            "role": "Manager",
+            "officeNumber": "12345"
+        },
+        {
+            "name": "Michael",
+            "id": "2",
+            "email": "Intern",
+            "role": "Intern",
+            "school": "UC Merced"
+        }
+    ]
+}
