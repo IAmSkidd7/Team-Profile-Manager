@@ -1,3 +1,6 @@
+const allEmployees = require('./src/PopulateEmployees');
+console.log('All Employees', allEmployees());
+
 const Employee = require("./lib/Employee")
 const Engineer = require("./lib/Engineer")
 const Intern = require("./lib/Intern")
@@ -15,6 +18,7 @@ function writeToFile(fileName, data) {
     })
 }
 
+const employees = [];
 
 const questions = [
     {
@@ -63,17 +67,19 @@ inquirer.prompt(questions).then(answers => {
     if (answers.Role == 'Intern') {
         employee = new Intern(answers.Name, answers.Id, answers.Role, answers.School)
         // console.log("Intern")
+        employees.push(employee)
     }
     else if (answers.Role == 'Engineer') {
         employee = new Engineer(answers.Name, answers.Id, answers.Role, answers.Github)
         // console.log("Engineer")
+        employees.push(employee)
     }
     else {
         employee = new Manager(answers.Name, answers.Id, answers.Role, answers.OfficeNumber)
         // console.log("Manager")
-
+        employees.push(employee)
     }
-
+console.log(employees)
     fs.readFile('src/Employees.json', 'utf-8', (err, data) => {
         if (err) {
             throw err

@@ -1,13 +1,6 @@
 const fs = require('fs');
 
-fs.readFile('Employees.json', 'utf-8', (err, data) => {
-    if (err) {
-        throw err
-    }
+module.exports = () => JSON.parse(fs.readFileSync('./src/Employees.json', 'utf-8'));
 
-    var employeeData = JSON.parse(data);
 
-    console.info(employeeData);
 
-    
-})

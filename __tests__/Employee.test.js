@@ -10,25 +10,32 @@ describe('Employee', () => {
             expect('email' in employee).toBe(true)
         });
     });
-    describe('getName', ()=> {
+    describe('getName', () => {
         it('should return the name', () => {
             const employee = new Employee('Baron', 1, 'baron@email.com')
 
             expect(employee.getName()).toBe('Baron')
         });
     });
-    describe('getId', ()=> {
+    describe('getId', () => {
         it('should return the id', () => {
             const employee = new Employee('Baron', 1, 'baron@email.com')
 
             expect(employee.getId()).toBe(1)
         });
     });
-    describe('getRole', ()=> {
+    describe('getRole', () => {
         it('should return the role', () => {
             const employee = new Employee('Baron', 1, 'baron@email.com')
             
             expect(employee.getRole()).toBe('Employee')
+        });
+    });
+    describe('getEmail', () => {
+        it('should return email', () => {
+            const employee = new employee('Baron', 1, 'baron@email.com')
+
+            expect(employee.getEmail()).toBe('baron@email.com');
         });
     });
 });

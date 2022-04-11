@@ -1,18 +1,1 @@
-{
-    "employees": [
-        {
-            "name": "Baron",
-            "id": "1",
-            "email": "Manager",
-            "role": "Manager",
-            "officeNumber": "12345"
-        },
-        {
-            "name": "Michael",
-            "id": "2",
-            "email": "Intern",
-            "role": "Intern",
-            "school": "UC Merced"
-        }
-    ]
-}
+{"employees":[{"name":"Baron","id":"1","email":"Manager","role":"Manager","officeNumber":"12345"},{"name":"Michael","id":"2","email":"Intern","role":"Intern","school":"UC Merced"},{"name":"mandy","id":"1","email":"Engineer","role":"Engineer","github":"a"},{"name":"mary","id":"5","email":"Intern","role":"Intern","school":"school of rock"},{"name":"baron","id":"1","email":"Intern","role":"Intern","school":"uncc"}]}
