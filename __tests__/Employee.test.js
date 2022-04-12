@@ -33,7 +33,7 @@ describe('Employee', () => {
     });
     describe('getEmail', () => {
         it('should return email', () => {
-            const employee = new employee('Baron', 1, 'baron@email.com')
+            const employee = new Employee('Baron', 1, 'baron@email.com')
 
             expect(employee.getEmail()).toBe('baron@email.com');
         });
