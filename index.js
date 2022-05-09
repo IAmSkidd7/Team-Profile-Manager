@@ -1,10 +1,8 @@
-const allEmployees = require('./src/PopulateEmployees');
-console.log('All Employees', allEmployees());
-
 const Employee = require("./lib/Employee")
 const Engineer = require("./lib/Engineer")
 const Intern = require("./lib/Intern")
 const Manager = require("./lib/Manager")
+const cardGenerator = require("./src/PopulateEmployees")
 
 
 const inquirer = require('inquirer')
@@ -17,6 +15,58 @@ function writeToFile(fileName, data) {
         }
     })
 }
+
+function generateHtml() {
+    fs.readFile('src/Employees.json', 'utf-8', (err, data) => {
+        if (err) {
+            throw err
+        }
+
+        var cards = []
+        var employeeData = JSON.parse(data);
+        employeeData.employees.forEach(element => {
+            switch (element.role) {
+                case "Manager":
+                    var card = cardGenerator.CreateManager(element)
+                    cards.push(card)
+                    break;
+                case "Intern":
+                    var card = cardGenerator.CreateIntern(element)
+                    cards.push(card)
+                    break;
+                case "Engineer":
+                    var card = cardGenerator.CreateEngineer(element)
+                    cards.push(card)
+                    break;
+
+            }
+        });
+        const htmlTemplate = `<!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <link rel="stylesheet" href="../style.css">
+            <title>Team Profile Generator</title>
+        </head>
+        <body>
+            <header>
+            <h1>My Team</h1>
+        </header>
+        <main>${(cards.join(''))}</main>
+            
+        </body>
+        </html>
+        `;
+        fs.writeFile('./dist/page.html', htmlTemplate, (err) => {
+            err ? console.error(err) : console.log('success!')
+        });
+    })
+
+};
+
+
 
 const employees = [];
 
@@ -61,37 +111,51 @@ const questions = [
         }
     },
 ];
+inquirer.prompt([{
+    name: 'choice',
+    message: 'Do you want to add a new employee or load page?',
+    type: 'list',
+    choices: ['New Employee', 'Load Page']
+}]).then(answers => {
+    if (answers.choice == 'New Employee') {
+        inquirer.prompt(questions).then(answers => {
+            var employee = null
+            if (answers.Role == 'Intern') {
+                employee = new Intern(answers.Name, answers.Id, answers.Role, answers.School)
+                // console.log("Intern")
+                employees.push(employee)
+            }
+            else if (answers.Role == 'Engineer') {
+                employee = new Engineer(answers.Name, answers.Id, answers.Role, answers.Github)
+                // console.log("Engineer")
+                employees.push(employee)
+            }
+            else {
+                employee = new Manager(answers.Name, answers.Id, answers.Role, answers.OfficeNumber)
+                // console.log("Manager")
+                employees.push(employee)
+            }
+            console.log(employees)
+            fs.readFile('src/Employees.json', 'utf-8', (err, data) => {
+                if (err) {
+                    throw err
+                }
 
-inquirer.prompt(questions).then(answers => {
-    var employee = null
-    if (answers.Role == 'Intern') {
-        employee = new Intern(answers.Name, answers.Id, answers.Role, answers.School)
-        // console.log("Intern")
-        employees.push(employee)
+                var employeeData = JSON.parse(data);
+
+                console.info(employeeData);
+
+                employeeData.employees.push(employee);
+                writeToFile('src/Employees.json', JSON.stringify(employeeData))
+            })
+
+
+        })
     }
-    else if (answers.Role == 'Engineer') {
-        employee = new Engineer(answers.Name, answers.Id, answers.Role, answers.Github)
-        // console.log("Engineer")
-        employees.push(employee)
+    else if (answers.choice == 'Load Page') {
+        generateHtml()
     }
-    else {
-        employee = new Manager(answers.Name, answers.Id, answers.Role, answers.OfficeNumber)
-        // console.log("Manager")
-        employees.push(employee)
-    }
-console.log(employees)
-    fs.readFile('src/Employees.json', 'utf-8', (err, data) => {
-        if (err) {
-            throw err
-        }
-
-        var employeeData = JSON.parse(data);
-
-        console.info(employeeData);
-
-        employeeData.employees.push(employee);
-        writeToFile('src/Employees.json', JSON.stringify(employeeData))
-    })
-    
-    
 })
+
+
+
